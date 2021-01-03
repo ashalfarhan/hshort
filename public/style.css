@@ -1,0 +1,49 @@
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #222;
+  background-color: #fff;
+  text-align: center;
+  line-height: 1.4em;
+  align-items: center;
+}
+
+main {
+  padding: 0;
+  height: 80vh;
+}
+
+h3 {
+  margin-top: 30px;
+}
+
+.user-stories li {
+  margin-bottom: 1em;
+}
+
+a {
+  color: #2574a9;
+}
+
+form {
+  margin: auto auto;
+  padding: 20px;
+  max-width: 600px;
+}
+
+label {
+  margin-right: 10px;
+}
+
+input {
+  padding: 8px;
+}
+
+input:focus {
+  outline: none;
+}
+
+input[type="text"] {
+  width: 220px;
+  text-align: center;
+}
