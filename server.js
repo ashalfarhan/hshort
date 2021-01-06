@@ -4,7 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const yup = require("yup");
 const { nanoid } = require("nanoid");
-const dns = require("dns");
+// const dns = require("dns");
 
 // Variable Configuration and local database(array)
 const app = express();
@@ -16,6 +16,8 @@ const urlSchema = yup.object().shape({
     .matches(/[\w\-]/i),
   url: yup.string().trim().url().required(),
 });
+
+// Simulate to be the Database
 const database = [];
 
 // Using some method
@@ -26,13 +28,6 @@ app.use("/public", express.static(`${process.cwd()}/public`));
 // Serve html to index page / first load
 app.get("/", (req, res) => {
   res.sendFile(process.cwd() + "/views/index.html");
-});
-
-// First endpoint to api
-app.get("/api/hello", (req, res) => {
-  res.json({
-    greeting: "Welcome to the API",
-  });
 });
 
 // Create new item to database
@@ -61,7 +56,10 @@ app.post("/new", async (req, res, next) => {
     };
     database.push(newUrl);
 
-    return res.json(newUrl);
+    return res.json({
+      message: "Successfully Created Slug",
+      newUrl,
+    });
   } catch (error) {
     next(error);
   }
@@ -80,7 +78,7 @@ app.use((error, req, res, next) => {
 });
 
 // Redirect to the original url based on slug parameter
-app.get("/:id", (req, res, next) => {
+app.get("/:id", (req, res) => {
   // Destructure id from params
   const { id: slug } = req.params;
 
