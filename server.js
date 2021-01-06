@@ -2,13 +2,21 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const yup = require("yup");
+const { nanoid } = require("nanoid");
 const dns = require("dns");
 
 // Variable Configuration and local database(array)
 const app = express();
 const port = process.env.PORT || 3000;
-const links = [];
-let id = 0;
+const urlSchema = yup.object().shape({
+  slug: yup
+    .string()
+    .trim()
+    .matches(/[\w\-]/i),
+  url: yup.string().trim().url().required(),
+});
+const database = [];
 
 // Using some method
 app.use(cors());
@@ -28,62 +36,69 @@ app.get("/api/hello", (req, res) => {
 });
 
 // Create new item to database
-app.post("/api/shorturl/new", (req, res) => {
+app.post("/new", async (req, res, next) => {
   // Destructure url from body
-  const { url } = req.body;
+  let { url, slug } = req.body;
 
-  // Remove https with regex
-  const noHTTPSurl = url.replace(/^https?:\/\//, "");
-
-  // Check if url is valid
-  dns.lookup(noHTTPSurl, (err) => {
-    if (err) {
-      res.json({
-        error: "Invalid URL",
-      });
+  try {
+    if (!slug) {
+      slug = nanoid(6);
     } else {
-      // Create id by creating every req is received
-      id++;
-
-      // Create link template
-      const link = {
-        original_url: url,
-        // IMPORTANT!!
-        // the id that created is a number, so change it to string
-        // before store it to the database,
-        // also when redirecting to the original url,
-        // the find method is shold match the req.params
-        // that is typeof String
-        short_url: `${id}`,
-      };
-
-      // Add link that have been created to database
-      links.push(link);
-      console.log("New link added", link);
-
-      return res.json(link);
+      const existing = await database.find((data) => data.slug === slug);
+      if (existing) {
+        throw new Error("Slug in use!");
+      }
     }
+    await urlSchema.validate({
+      slug,
+      url,
+    });
+    slug = slug.toLowerCase();
+
+    const newUrl = {
+      url,
+      slug,
+    };
+    database.push(newUrl);
+
+    return res.json(newUrl);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.use((error, req, res, next) => {
+  if (error.status) {
+    res.status(error.status);
+  } else {
+    res.status(500);
+  }
+  res.json({
+    message: error.message,
+    stack: process.env.NODE_ENV === "production" ? "Stack" : error.stack,
   });
 });
 
-// Redirect to the original url based on id parameter
-app.get("/api/shorturl/:id", (req, res) => {
+// Redirect to the original url based on slug parameter
+app.get("/:id", (req, res, next) => {
   // Destructure id from params
-  const { id } = req.params;
+  const { id: slug } = req.params;
 
-  // Find the item from the database by id
-  // IMPORTANT!!
-  // the id that given from req.params is a STRING,
-  // convert id that given from new endpoint to string
-  const result = links.find((l) => l.short_url === id);
+  try {
+    // Find the item from the database by id
+    // IMPORTANT!!
+    // the id that given from req.params is a STRING,
+    // convert id that given from new endpoint to string
+    const result = database.find((data) => data.slug === slug);
 
-  // Check if the url found
-  if (result) {
-    return res.redirect(result.original_url);
-  } else {
-    return res.json({
-      error: "No such URL found!",
-    });
+    // Check if the url found
+    if (result) {
+      return res.redirect(result.url);
+    } else {
+      return res.redirect(`/?error=${slug} not found`);
+    }
+  } catch (error) {
+    return res.redirect(`/?error=Link not found`);
   }
 });
 

@@ -8,7 +8,7 @@
 
   <body>
     <main>
-      <form action="api/shorturl/new" method="POST">
+      <form action="/new" method="POST">
         <h1>URL Shortener Microservice</h1>
         <fieldset>
           <legend>URL Shortener</legend>
@@ -19,6 +19,13 @@
             name="url"
             placeholder="https://www.github.com/"
             required
+          />
+          <label for="slug_input">Slug (should be unique)</label>
+          <input
+            id="slug_input"
+            type="text"
+            name="slug"
+            placeholder="mysocialmedia or something unique"
           />
           <input type="submit" value="POST URL" />
         </fieldset>
