@@ -1,0 +1,13 @@
+### GET
+GET http://localhost:3000/ HTTP/1.1
+
+### POST
+POST http://localhost:3000/new HTTP/1.1
+
+{
+    "slug": "random",
+    "url": "https://web.whatsapp.com",
+}
+
+### GET URL
+GET http://localhost:3000/6039b91a70c52d2458d1403a HTTP/1.1
