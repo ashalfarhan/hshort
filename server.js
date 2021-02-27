@@ -19,6 +19,8 @@ app.get("/", (_, res) => {
   res.status(200).send("Welcome to url shortener microservice");
 });
 
+console.log("MONGO_URI is", process.env.MONGO_URI);
+
 app.post("/new", async (req, res, next) => {
   let { url, slug } = req.body;
   try {
