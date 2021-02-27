@@ -16,7 +16,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get("/", (_, res) => {
-  res.status(200).send("Welcome to url shortener microservice");
+  res.status(200).send("Welcome to a simple url shortener microservice");
 });
 
 app.post("/new", async (req, res, next) => {
