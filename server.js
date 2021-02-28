@@ -14,6 +14,7 @@ connectDB();
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static("./public"));
 
 app.get("/", (_, res) => {
   res.status(200).send("Welcome to a simple url shortener microservice");

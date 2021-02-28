@@ -8,10 +8,7 @@ export default async function connectDB() {
       useCreateIndex: true,
     });
 
-    console.log(
-      "%s\x1b[36m",
-      `\n > MongoDB Connected: ${conn.connection.host} \n`
-    );
+    console.log("%s\x1b[36m", `\n > MongoDB Connected \n`);
   } catch (error) {
     console.error(`Database Error: ${error.message}`);
     process.exit(1);
