@@ -20,7 +20,7 @@ app.get("/", (_, res) => {
   res.status(200).send("Welcome to a simple url shortener microservice");
 });
 
-app.post("/new", async (req, res, next) => {
+app.post("/new", async (req, res) => {
   let { url, slug } = req.body;
   try {
     if (!slug) {
@@ -41,7 +41,6 @@ app.post("/new", async (req, res, next) => {
     });
   } catch (error) {
     console.error(error);
-    next(error);
   }
 });
 
