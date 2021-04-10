@@ -1,16 +1,16 @@
+import chalk from "chalk";
 import mongoose from "mongoose";
 
-export default async function connectDB() {
+export default async function () {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
+    await mongoose.connect(process.env.MONGO_URI, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
       useCreateIndex: true,
     });
-
-    console.log("%s\x1b[36m", `\n > MongoDB Connected \n`);
+    console.log(chalk.cyan(`[database] MongoDB Connected`));
   } catch (error) {
-    console.error(`Database Error: ${error.message}`);
+    console.error(chalk.red(`[database] Error: ${error.message}`));
     process.exit(1);
   }
 }
