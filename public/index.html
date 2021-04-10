@@ -4,12 +4,25 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Free url shortener open source project expressjs mongodb"
+    />
+    <meta
+      name="keywords"
+      content="url, urlshortener, free, open source, nodejs, expressjs, javascript, vue, mongodb, ashalfarhan"
+    />
+    <meta name="author" content="Ashal Farhan" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link href="styles.css" rel="stylesheet" />
-    <title>haans-url</title>
+    <title>hshort | Free Url Shortener</title>
   </head>
   <body>
     <header>
-      <h1>URL SHORTENER</h1>
+      <h1>hshort.me</h1>
     </header>
     <main id="app">
       <form class="form" v-if="formVisible" @submit.prevent="createUrl()">
@@ -33,13 +46,14 @@
         />
         <button type="submit" class="create">create</button>
       </form>
-      <div v-if="created">
+      <div class="success-created" v-if="created">
         <p class="reminder">
           Please remember this slug, you can't see this anymore if you close
           this
         </p>
         <p class="created">
-          Your short url is: <a :href="created">{{ created }}</a>
+          Your short url is: <br />
+          <a :href="created" title="Shortened url">{{ created }}</a>
         </p>
       </div>
       <footer>

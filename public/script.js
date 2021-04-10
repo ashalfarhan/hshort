@@ -20,10 +20,10 @@ const app = new Vue({
           slug: this.slug,
         }),
       });
-      if (response.ok) {
+      if (response.ok && response.status === 200) {
         const data = await response.json();
         this.formVisible = false;
-        this.created = `https://haans-url.herokuapp.com/${data.result.slug}`;
+        this.created = `https://hshort.me/${data.result.slug}`;
       } else if (response.status === 429) {
         this.error =
           "You are sending too many requests. Try again in 30 seconds.";
