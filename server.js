@@ -10,6 +10,15 @@ import chalk from "chalk";
 const app = express();
 const port = process.env.PORT || 3000;
 (async function () {
+  /* Redirect http to https */
+  app.use((req, res, next) => {
+    if (
+      req.headers["x-forwarded-proto"] != "https" &&
+      process.env.NODE_ENV === "production"
+    )
+      res.redirect("https://" + req.hostname + req.url);
+    else next(); /* Continue to other routes if we're not redirecting */
+  });
   app.use(cors());
   app.use(bodyParser.json());
   app.use(express.static("./public"));
