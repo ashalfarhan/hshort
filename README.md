@@ -1,4 +1,12 @@
-# A simple url shortener built using express, mongodb and vue for client
+# A simple url shortener
 
-### Demo
+## DEMO
+
 [Click Here](https://haans-url.herokuapp.com)
+
+## STACK
+
+- Node Js
+- Express Js
+- Mongo DB
+- Vue
