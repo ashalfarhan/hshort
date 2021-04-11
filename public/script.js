@@ -24,9 +24,6 @@ const app = new Vue({
         const data = await response.json();
         this.formVisible = false;
         this.created = `https://hshort.me/${data.result.slug}`;
-      } else if (response.status === 429) {
-        this.error =
-          "You are sending too many requests. Try again in 30 seconds.";
       } else {
         const data = await response.json();
         this.error = data.message;
