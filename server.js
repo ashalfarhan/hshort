@@ -11,7 +11,7 @@ import sslRedirect from "heroku-ssl-redirect";
 const app = express();
 const port = process.env.PORT || 3000;
 (async function () {
-  app.use(sslRedirect);
+  app.use(sslRedirect());
   app.use(cors());
   app.use(bodyParser.json());
   app.use(express.static("./public"));
