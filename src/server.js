@@ -1,31 +1,28 @@
-import connectDB from "./config/db.js";
-import bodyParser from "body-parser";
-import Url from "./model/url.js";
+import forceHttps from "./lib/forceHttps";
+import connectDB from "./config/db";
 import { nanoid } from "nanoid";
+import Url from "./model/url";
 import express from "express";
-import "dotenv/config.js";
-import cors from "cors";
 import chalk from "chalk";
+import cors from "cors";
+import "dotenv/config";
 
 const app = express();
-const port = process.env.PORT || 3000;
-(async function () {
-  /* Redirect http to https */
-  app.use((req, res, next) => {
-    if (
-      req.headers["x-forwarded-proto"] !== "https" &&
-      process.env.NODE_ENV === "production"
-    )
-      res.redirect("https://" + req.hostname + req.url);
-    else next(); /* Continue to other routes if we're not redirecting */
-  });
-  app.use(cors());
-  app.use(bodyParser.json());
-  app.use(express.static("./public"));
+const PORT = process.env.PORT || 3000;
+
+(async () => {
   await connectDB();
+  app.use(forceHttps);
+  app.use(cors());
+  app.use(express.json());
+  app.use(express.static("public"));
 
   app.get("/", (_, res) => {
-    res.status(200).send("Welcome to a simple url shortener microservice");
+    res
+      .status(200)
+      .send(
+        "Welcome to a simple url shortener microservice by Ashal Farhan :)"
+      );
   });
 
   app.post("/new", async (req, res) => {
@@ -67,9 +64,9 @@ const port = process.env.PORT || 3000;
     }
   });
 
-  app.listen(port, () => {
+  app.listen(PORT, () => {
     console.log(
-      chalk.magenta(`[server] Listening on http://localhost:${port} \n`)
+      chalk.magenta(`[server] Listening on http://localhost:${PORT} \n`)
     );
   });
 })();
