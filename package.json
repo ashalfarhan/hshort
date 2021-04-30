@@ -2,26 +2,29 @@
   "name": "urlshortener",
   "version": "1.0.0",
   "description": "A simple url shortener",
-  "main": "src/server.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "babel src --out-dir dist && node dist/server.js",
+    "build": "babel src --out-dir dist",
+    "start": "node dist/server.js",
     "dev": "nodemon --exec babel-node src/server.js"
   },
   "author": "Ashal Farhan",
   "license": "ISC",
   "dependencies": {
-    "@babel/cli": "^7.13.14",
-    "@babel/core": "^7.13.15",
-    "@babel/node": "^7.13.13",
-    "@babel/preset-env": "^7.13.15",
     "chalk": "^4.1.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "helmet": "^4.5.0",
     "mongoose": "^5.11.18",
+    "morgan": "^1.10.0",
     "nanoid": "^3.1.20"
   },
   "devDependencies": {
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.15",
+    "@babel/node": "^7.13.13",
+    "@babel/preset-env": "^7.13.15",
     "nodemon": "^2.0.7"
   }
 }
