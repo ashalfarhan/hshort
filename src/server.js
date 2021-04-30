@@ -5,24 +5,26 @@ import Url from "./model/url";
 import express from "express";
 import chalk from "chalk";
 import cors from "cors";
+import helmet from "helmet";
 import "dotenv/config";
 
-const app = express();
-const PORT = process.env.PORT || 3000;
-
 (async () => {
-  await connectDB();
+  const app = express();
+  const PORT = process.env.PORT || 3000;
+  app.use(
+    cors({
+      origin: "https://hshort.me",
+      credentials: false,
+    })
+  );
+  app.use(helmet());
   app.use(forceHttps);
-  app.use(cors());
   app.use(express.json());
   app.use(express.static("public"));
+  await connectDB();
 
   app.get("/", (_, res) => {
-    res
-      .status(200)
-      .send(
-        "Welcome to a simple url shortener microservice by Ashal Farhan :)"
-      );
+    res.status(200).send("Welcome to a simple url shortener microservice");
   });
 
   app.post("/new", async (req, res) => {
@@ -33,7 +35,8 @@ const PORT = process.env.PORT || 3000;
       } else {
         const isExisting = await Url.findOne({ slug });
         if (isExisting) {
-          return res.status(403).json({
+          return res.status(401).json({
+            ok: false,
             message: "Slug is already used!",
           });
         }
@@ -43,13 +46,16 @@ const PORT = process.env.PORT || 3000;
         url,
       });
       const result = await newUrl.save();
-      if (!result) throw Error("Cannot save the url to the database");
       res.status(200).json({
+        ok: true,
         message: "Successfully Created Slug",
         result,
       });
     } catch (error) {
-      console.error(error);
+      res.status(401).json({
+        ok: false,
+        message: error.message,
+      });
     }
   });
 
@@ -66,7 +72,7 @@ const PORT = process.env.PORT || 3000;
 
   app.listen(PORT, () => {
     console.log(
-      chalk.magenta(`[server] Listening on http://localhost:${PORT} \n`)
+      chalk.magenta(`[server] Listening on http://localhost:${PORT}`)
     );
   });
 })();
