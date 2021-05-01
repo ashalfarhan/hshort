@@ -4,21 +4,14 @@ import { nanoid } from "nanoid";
 import Url from "./model/url";
 import express from "express";
 import chalk from "chalk";
-import cors from "cors";
 import helmet from "helmet";
 import "dotenv/config";
 
 (async () => {
   const app = express();
   const PORT = process.env.PORT || 3000;
-  app.use(
-    cors({
-      origin: "https://hshort.me",
-      credentials: false,
-    })
-  );
-  app.use(helmet());
   app.use(forceHttps);
+  app.use(helmet());
   app.use(express.json());
   app.use(express.static("public"));
   await connectDB();
