@@ -11,7 +11,11 @@ import "dotenv/config";
   const app = express();
   const PORT = process.env.PORT || 3000;
   app.use(forceHttps);
-  app.use(helmet());
+  app.use(
+    helmet({
+      contentSecurityPolicy: false,
+    })
+  );
   app.use(express.json());
   app.use(express.static("public"));
   await connectDB();
