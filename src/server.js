@@ -68,4 +68,6 @@ import "dotenv/config";
       chalk.magenta(`[server] Listening on http://localhost:${PORT}`)
     );
   });
-})();
+})().catch((e) => {
+  console.log(chalk.bgMagenta(`[server] Error: `, e.message));
+});
