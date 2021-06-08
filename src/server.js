@@ -10,7 +10,7 @@ import "dotenv/config";
 (async () => {
   const app = express();
   const PORT = process.env.PORT || 3000;
-  app.use(forceHttps);
+  // app.use(forceHttps);
   app.use(
     helmet({
       contentSecurityPolicy: false,
