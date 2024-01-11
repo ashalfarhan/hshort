@@ -1,6 +1,6 @@
 {
-  "name": "Url Shortener by Ashal",
-  "short_name": "hshort.me",
+  "name": "URL Shortener",
+  "short_name": "hshort",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

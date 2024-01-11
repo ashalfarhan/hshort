@@ -1,12 +1,41 @@
-# A simple url shortener
+# hshort
 
-## DEMO
+A simple URL shortener app.
 
-[Click Here](https://haans-url.herokuapp.com)
+## Tech Stack
 
-## STACK
+- Framework: [Hono](https://hono.dev)
 
-- Node Js
-- Express Js
-- Mongo DB
-- Vue
+## Run Locally
+
+Clone the project
+
+```sh
+git clone https://github.com/ashalfarhan/hshort.git
+```
+
+Go to the project directory
+
+```sh
+cd hshort
+```
+
+Install dependencies
+
+```sh
+npm install
+```
+
+Start the server
+
+```sh
+npm run dev
+```
+
+## Deployment
+
+To deploy this project run
+
+```sh
+npx wrangler deploy
+```

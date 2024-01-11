@@ -1,0 +1,10 @@
+name = "hshort"
+main = "src/index.tsx"
+compatibility_date = "2023-10-16"
+
+kv_namespaces = [
+    { binding = 'KEY_VAL', id = 'f3af3790b2fd4e22baa9ab5d06fce528' }
+]
+
+[site]
+bucket = "./public"
