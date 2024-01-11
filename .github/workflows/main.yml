@@ -1,0 +1,29 @@
+name: Main Workflow
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+
+env:
+  NODE_VERSION: 18.17
+  CACHE_VERSION: v1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: npm-${{ env.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: npm-${{ env.CACHE_VERSION }}-
+      - run: npm install
+      - run: npx tsc
+      - run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
