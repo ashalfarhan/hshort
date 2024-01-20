@@ -8,12 +8,8 @@ export const CreationForm = ({
   url?: string;
 }) => {
   return (
-    <form class="form" method="POST" action="/new">
-      {error ? (
-        <div x-if="error" class="error">
-          {error}
-        </div>
-      ) : null}
+    <form class="form" method="POST" action="/api/new">
+      {error ? <div class="error">{error}</div> : null}
       <input
         class="input"
         type="url"

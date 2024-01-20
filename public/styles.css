@@ -98,13 +98,9 @@ h1 {
   text-align: center;
 }
 
-.reminder {
-  margin: 8px;
-  color: #d0fcb3;
-}
-
 .created a {
   color: inherit;
+  word-break: break-word;
 }
 
 footer {
@@ -118,7 +114,7 @@ footer > a {
 
 @media screen and (max-width: 768px) {
   .form {
-    width: 80%;
+    width: 100%;
   }
   .input {
     caret-color: #d0fcb3;
@@ -131,8 +127,5 @@ footer > a {
   }
   .created {
     color: #d0fcb3;
-  }
-  .reminder {
-    color: #c8ad55;
   }
 }
