@@ -26,16 +26,17 @@ app.get('/', async c => {
 
 app.get('/created', async c => {
   const slug = c.req.query('slug');
+  const { origin } = new URL(c.req.url);
   if (!slug) return c.status(403);
-  return c.render(<Created url={'http://localhost:8787/' + slug} />);
+  return c.render(<Created url={[origin, slug].join('/')} />);
 });
 
-app.post('/new', async c => {
-  const form = await c.req.formData();
-  let url = form.get('url');
-  let slug = form.get('slug');
+app.post('/api/new', async c => {
   try {
-    if (!url) throw new Error('`url` is required');
+    const form = await c.req.formData();
+    let url = form.get('url');
+    let slug = form.get('slug');
+    if (!url) throw new Error('Please enter url to be shortened');
     if (!slug) {
       slug = nanoid(4);
     } else {
@@ -58,7 +59,9 @@ app.get('/:slug', async c => {
     if (!result) throw Error('Slug cannot be found');
     return c.redirect(result);
   } catch (error) {
-    return c.redirect(`/?error=Link+not+found`, 301);
+    let message = 'Something went wrong';
+    if (error instanceof Error) message = error.message;
+    return c.redirect(`/?error=${message}`, 303);
   }
 });
 
